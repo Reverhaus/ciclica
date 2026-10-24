@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#352a45">
+<meta name="description" content="Seguimiento menstrual y registro personal de dolor, con datos guardados localmente.">
+<link rel="manifest" href="manifest.json">
+<title>Cíclica — seguimiento menstrual</title>
+<style>
+:root{--bg:#f7f4f8;--panel:#fff;--ink:#292331;--muted:#756d7c;--line:#e5dfe9;--accent:#7152a3;--accent2:#e7dcf7;--period:#d75b83;--pain:#e58b43;--good:#387e70;--radius:18px;--shadow:0 8px 28px #3423430c}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.45 system-ui,-apple-system,Segoe UI,sans-serif}button,input,select,textarea{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid #b9a2e8;outline-offset:2px}
+.app{max-width:1040px;margin:auto;padding:env(safe-area-inset-top) 16px calc(86px + env(safe-area-inset-bottom))}header{padding:22px 2px 12px;display:flex;align-items:center;justify-content:space-between;gap:12px}.brand{display:flex;align-items:center;gap:10px}.logo{width:43px;height:43px;border-radius:15px;background:var(--accent);color:#fff;display:grid;place-items:center;font-size:23px}.brand h1{font-size:21px;margin:0;letter-spacing:-.5px}.brand p{margin:1px 0 0;color:var(--muted);font-size:12px}.topbtn,.btn,.iconbtn{border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:12px;padding:10px 13px}.btn.primary{background:var(--accent);color:white;border-color:var(--accent)}.btn.soft{background:var(--accent2);border-color:transparent;color:#4b3572}.btn.danger{color:#a3314e;border-color:#eac6d0}.btn.small{padding:7px 10px;font-size:13px}.nav{display:flex;gap:7px;overflow:auto;padding:8px 0 16px;scrollbar-width:none}.nav button{white-space:nowrap;border:0;border-radius:12px;padding:10px 13px;background:transparent;color:var(--muted)}.nav button.active{background:var(--accent2);color:#4b3572;font-weight:650}.view{display:none}.view.active{display:block}.hero{background:var(--accent);color:#fff;border-radius:24px;padding:22px;margin-bottom:14px;box-shadow:var(--shadow)}.hero .eyebrow{opacity:.78;font-size:12px;text-transform:uppercase;letter-spacing:1px}.hero h2{font-size:25px;line-height:1.15;margin:8px 0}.hero p{margin:0;color:#f0eaf8}.hero .hero-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}.hero .btn{background:#fff;color:#4b3572;border-color:#fff}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:17px;box-shadow:var(--shadow);min-width:0}.card h3{margin:0 0 12px;font-size:16px}.muted{color:var(--muted)}.smalltext{font-size:12px;color:var(--muted)}.stat{font-size:28px;font-weight:750;letter-spacing:-1px}.statlabel{font-size:12px;color:var(--muted)}.row{display:flex;align-items:center;gap:9px}.between{justify-content:space-between}.wrap{flex-wrap:wrap}.stack{display:flex;flex-direction:column;gap:12px}.field{display:flex;flex-direction:column;gap:6px;min-width:0}.field label,.label{font-size:13px;font-weight:650}.field input,.field select,.field textarea,input[type=date],input[type=number],select,textarea{width:100%;border:1px solid var(--line);background:#fff;border-radius:11px;padding:11px;color:var(--ink);min-width:0}.field textarea{min-height:80px;resize:vertical}.formgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.full{grid-column:1/-1}.checks{display:flex;flex-wrap:wrap;gap:7px}.chip{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:999px;padding:8px 11px;background:#fff;font-size:13px}.chip input{accent-color:var(--accent)}.sectionhead{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:18px 0 10px}.sectionhead h2{font-size:19px;margin:0}.calendar-card{padding:14px}.calhead{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}.calhead strong{font-size:17px}.calgrid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px}.weekday{text-align:center;font-size:11px;color:var(--muted);padding:5px 0}.day{min-height:53px;border:1px solid transparent;background:#faf9fb;border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:4px 0;color:var(--ink);font-size:13px}.day.empty{background:transparent}.day.selected{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}.day.period{background:#fae2eb}.day.pain{box-shadow:inset 0 -4px var(--pain)}.day.today{font-weight:800}.dots{display:flex;gap:3px;min-height:5px}.dot{width:5px;height:5px;border-radius:50%;background:var(--period)}.dot.pain{background:var(--pain)}.legend{display:flex;gap:13px;flex-wrap:wrap;font-size:12px;color:var(--muted);margin-top:12px}.legend span{display:flex;align-items:center;gap:5px}.legend i{width:9px;height:9px;border-radius:50%;display:inline-block;background:var(--period)}.legend .painkey{background:var(--pain)}.timelineitem{border:1px solid var(--line);border-radius:13px;padding:12px;display:flex;justify-content:space-between;gap:12px;align-items:flex-start}.timelineitem+.timelineitem{margin-top:8px}.tag{font-size:11px;padding:4px 7px;border-radius:999px;background:var(--accent2);color:#4b3572;display:inline-block}.tag.periodtag{background:#fae2eb;color:#963c5b}.tag.paintag{background:#ffecd9;color:#8d4a16}.barlist{display:flex;flex-direction:column;gap:12px}.barrow{display:grid;grid-template-columns:85px minmax(0,1fr) 35px;gap:9px;align-items:center;font-size:12px}.track{height:10px;background:#eee8f2;border-radius:99px;overflow:hidden}.bar{height:100%;border-radius:99px;background:var(--pain)}.empty{padding:24px 12px;text-align:center;color:var(--muted);font-size:13px}.notice{background:#f1ebf8;border-radius:12px;padding:12px;font-size:13px;color:#554469}.hidden{display:none!important}footer{text-align:center;font-size:11px;color:var(--muted);padding:22px 4px}
+.bottomnav{display:none}
+@media(max-width:680px){.app{padding-left:12px;padding-right:12px}.grid{grid-template-columns:1fr 1fr;gap:9px}.card{padding:13px}.hero{padding:19px}.hero h2{font-size:23px}.formgrid{grid-template-columns:1fr}.full{grid-column:auto}.day{min-height:43px;font-size:12px}.bottomnav{display:flex;position:fixed;bottom:0;left:0;right:0;padding:8px 8px calc(8px + env(safe-area-inset-bottom));background:#fffF;border-top:1px solid var(--line);backdrop-filter:blur(14px);justify-content:space-around;z-index:10}.bottomnav button{border:0;background:transparent;color:var(--muted);font-size:11px;padding:6px 9px;display:flex;flex-direction:column;align-items:center;gap:3px}.bottomnav button.active{color:var(--accent);font-weight:700}.bottomnav b{font-size:19px;font-weight:500}.topbtn{font-size:12px;padding:8px 10px}.barrow{grid-template-columns:72px minmax(0,1fr) 28px}}
+</style>
+</head>
+<body>
+<div class="app">
+<header><div class="brand"><div class="logo">✿</div><div><h1>Cíclica</h1><p>Tu ciclo, a tu manera</p></div></div><button class="topbtn" id="quickAdd">＋ Registrar</button></header>
+<nav class="nav" id="desktopNav"><button class="active" data-view="home">Inicio</button><button data-view="calendar">Calendario</button><button data-view="log">Registrar</button><button data-view="stats">Estadísticas</button><button data-view="settings">Personalizar</button></nav>
+
+<section class="view active" id="view-home">
+<div class="hero"><div class="eyebrow" id="todayLabel">TU SEGUIMIENTO</div><h2 id="heroTitle">Un espacio para entender tu ciclo</h2><p id="heroText">Registra tu menstruación y tus síntomas a tu ritmo.</p><div class="hero-actions"><button class="btn" data-goto="log">＋ Nuevo registro</button><button class="btn" data-goto="calendar">Ver calendario</button></div></div>
+<div class="grid">
+<div class="card"><div class="stat" id="cycleStat">—</div><div class="statlabel">Día del ciclo</div></div>
+<div class="card"><div class="stat" id="periodStat">—</div><div class="statlabel">Última menstruación</div></div>
+<div class="card"><div class="stat" id="painDaysStat">0</div><div class="statlabel">Días con dolor · ciclo actual</div></div>
+<div class="card"><div class="stat" id="avgPainStat">—</div><div class="statlabel">Dolor medio · ciclo actual</div></div>
+</div>
+<div class="sectionhead"><h2>Hoy</h2><button class="btn small soft" data-goto="log">Editar registro</button></div>
+<div class="card" id="todaySummary"><div class="empty">Todavía no hay registros para hoy.</div></div>
+<div class="sectionhead"><h2>Últimos registros</h2><button class="btn small" data-goto="calendar">Ver todos</button></div>
+<div class="card" id="recentList"><div class="empty">Tus registros aparecerán aquí.</div></div>
+</section>
+
+<section class="view" id="view-calendar">
+<div class="sectionhead"><h2>Calendario</h2><button class="btn small primary" data-goto="log">＋ Registrar</button></div>
+<div class="card calendar-card"><div class="calhead"><button class="iconbtn" id="prevMonth" aria-label="Mes anterior">‹</button><strong id="monthTitle"></strong><button class="iconbtn" id="nextMonth" aria-label="Mes siguiente">›</button></div><div class="calgrid" id="calendarGrid"></div><div class="legend"><span><i></i> Menstruación</span><span><i class="painkey"></i> Dolor</span><span>◎ Día seleccionado</span></div></div>
+<div class="sectionhead"><h2 id="selectedDateTitle">Día seleccionado</h2><button class="btn small" id="editSelected">Registrar este día</button></div>
+<div class="card" id="selectedSummary"><div class="empty">Selecciona un día para ver sus registros.</div></div>
+</section>
+
+<section class="view" id="view-log">
+<div class="sectionhead"><h2>Registro del día</h2><input type="date" id="logDate" style="width:auto;max-width:165px"></div>
+<div class="card stack">
+<div class="row between"><h3 style="margin:0">Menstruación</h3><label class="row" style="font-size:13px"><input type="checkbox" id="periodOn"> He sangrado</label></div>
+<div class="formgrid" id="periodFields">
+<div class="field"><label for="flow">Intensidad del sangrado</label><select id="flow"><option value="">No indicado</option><option>Manchado</option><option>Ligero</option><option>Moderado</option><option>Abundante</option></select></div>
+<div class="field"><label for="bleedNotes">Notas sobre el sangrado</label><input id="bleedNotes" placeholder="Opcional"></div>
+</div>
+<div class="field"><label>Otros síntomas menstruales (selección múltiple)</label><div class="checks" id="periodSymptoms"></div></div>
+<div class="field"><label for="periodOther">Otro síntoma / nota</label><input id="periodOther" placeholder="Añade algo que quieras recordar"></div>
+</div>
+<div class="sectionhead"><h2>Dolor</h2><button class="btn small soft" id="addPain">＋ Añadir episodio</button></div>
+<div id="painEpisodes" class="stack"></div>
+<div class="card stack">
+<h3 style="margin:0">Cómo ha sido el día</h3>
+<div class="field"><label for="impact">Impacto en tus actividades</label><select id="impact"><option value="">Sin indicar</option><option value="0">Ninguno</option><option value="1">Leve: molestias, pero hice lo habitual</option><option value="2">Moderado: tuve que cambiar mis planes</option><option value="3">Alto: no pude hacer algunas actividades</option></select></div>
+<div class="field"><label for="dayNotes">Notas del día</label><textarea id="dayNotes" placeholder="Energía, sueño, digestión, contexto… lo que te resulte útil"></textarea></div>
+<div class="row wrap"><button class="btn primary" id="saveDay">Guardar registro</button><button class="btn" id="clearDay">Borrar registro de este día</button></div>
+<div id="saveMessage" class="smalltext" aria-live="polite"></div>
+</div>
+</section>
+
+<section class="view" id="view-stats">
+<div class="sectionhead"><h2>Estadísticas</h2><select id="statsRange" style="width:auto"><option value="3">Últimos 3 ciclos</option><option value="6" selected>Últimos 6 ciclos</option><option value="12">Últimos 12 ciclos</option><option value="all">Todo el historial</option></select></div>
+<div class="notice">Las gráficas muestran patrones registrados, no causas ni diagnósticos. Las predicciones del ciclo son estimaciones y pueden variar.</div>
+<div class="grid" style="margin-top:12px">
+<div class="card"><div class="stat" id="avgCycleLength">—</div><div class="statlabel">Duración media del ciclo</div></div>
+<div class="card"><div class="stat" id="avgPeriodLength">—</div><div class="statlabel">Duración media de menstruación</div></div>
+<div class="card"><div class="stat" id="painDayAverage">—</div><div class="statlabel">Días con dolor por ciclo</div></div>
+<div class="card"><div class="stat" id="maxPainAverage">—</div><div class="statlabel">Intensidad máxima media</div></div>
+</div>
+<div class="sectionhead"><h2>Dolor según el día del ciclo</h2></div>
+<div class="card"><p class="smalltext">Promedio de la intensidad máxima diaria registrada en cada tramo del ciclo. Día 1 = primer día de sangrado registrado.</p><div class="barlist" id="phaseChart"></div></div>
+<div class="sectionhead"><h2>Comparar ciclos</h2></div>
+<div class="card" id="cycleCompare"></div>
+<div class="sectionhead"><h2>Síntomas más registrados</h2></div>
+<div class="card" id="symptomStats"></div>
+</section>
+
+<section class="view" id="view-settings">
+<div class="sectionhead"><h2>Personalizar</h2></div>
+<div class="card stack">
+<h3>Tu ciclo</h3><div class="formgrid">
+<div class="field"><label for="cycleLength">Duración habitual del ciclo (días)</label><input id="cycleLength" type="number" min="10" max="90" value="28"></div>
+<div class="field"><label for="periodLength">Duración habitual de menstruación</label><input id="periodLength" type="number" min="1" max="20" value="5"></div>
+</div><p class="smalltext">Se usa solo para estimaciones visuales. El historial real siempre tiene prioridad.</p>
+<h3>Opciones de dolor</h3>
+<div class="field"><label for="customPainType">Añadir tipo de dolor</label><div class="row"><input id="customPainType" placeholder="Ej. presión, espasmo…" style="flex:1"><button class="btn" id="addPainType">Añadir</button></div><div class="checks" id="painTypeSettings"></div></div>
+<div class="field"><label for="customLocation">Añadir localización</label><div class="row"><input id="customLocation" placeholder="Ej. lado izquierdo…" style="flex:1"><button class="btn" id="addLocation">Añadir</button></div><div class="checks" id="locationSettings"></div></div>
+<h3>Síntomas del día</h3>
+<div class="field"><label for="customSymptom">Añadir síntoma</label><div class="row"><input id="customSymptom" placeholder="Ej. mareo…" style="flex:1"><button class="btn" id="addSymptom">Añadir</button></div><div class="checks" id="symptomSettings"></div></div>
+<div class="row wrap"><button class="btn primary" id="saveSettings">Guardar preferencias</button><button class="btn" id="exportData">Exportar copia JSON</button><label class="btn" for="importFile">Importar copia</label><input type="file" id="importFile" accept=".json,application/json" class="hidden"></div>
+<div class="notice">Los datos se guardan en este navegador y en este dispositivo. No se envían a una cuenta ni a un servidor. Exporta una copia de seguridad con regularidad; borrar los datos del navegador puede eliminarlos.</div>
+<div class="row wrap"><button class="btn danger" id="wipeData">Borrar todos los datos</button><span id="settingsMessage" class="smalltext" aria-live="polite"></span></div>
+</div>
+</section>
+<footer>Cíclica · Registro personal, sin diagnósticos. Tus datos permanecen en este dispositivo.</footer>
+</div>
+<div class="bottomnav" id="mobileNav"><button class="active" data-view="home"><b>⌂</b>Inicio</button><button data-view="calendar"><b>▦</b>Calendario</button><button data-view="log"><b>＋</b>Registrar</button><button data-view="stats"><b>▥</b>Estadísticas</button><button data-view="settings"><b>⚙</b>Ajustes</button></div>
+
+<template id="painTemplate">
+<div class="card stack pain-entry">
+<div class="row between"><strong class="pain-title">Episodio de dolor</strong><button class="btn small danger remove-pain" type="button">Quitar</button></div>
+<div class="formgrid">
+<div class="field"><label>Hora de inicio</label><input class="pain-start" type="time"></div>
+<div class="field"><label>Hora de final (opcional)</label><input class="pain-end" type="time"></div>
+<div class="field full"><label>Localización (puedes elegir varias)</label><div class="checks pain-locations"></div></div>
+<div class="field full"><label>Tipo de dolor (puedes elegir varios)</label><div class="checks pain-types"></div></div>
+<div class="field full"><label>Intensidad máxima: <span class="pain-value">5</span>/10</label><input class="pain-intensity" type="range" min="0" max="10" value="5"></div>
+<div class="field full"><label>Notas del episodio</label><input class="pain-notes" placeholder="Opcional"></div>
+</div>
+</div>
+</template>
+<script>
+(() => {
+'use strict';
+const $ = s => document.querySelector(s);
+const $$ = s => [...document.querySelectorAll(s)];
+const todayISO = () => { const d=new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; };
+const dateObj = s => {const [y,m,d]=s.split('-').map(Number);return new Date(y,m-1,d,12);};
+const iso = d => `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+const addDays = (s,n) => {const d=dateObj(s);d.setDate(d.getDate()+n);return iso(d);};
+const diffDays = (a,b) => Math.round((dateObj(b)-dateObj(a))/86400000);
+const pretty = s => s ? dateObj(s).toLocaleDateString('es-ES',{day:'numeric',month:'short',year:'numeric'}) : '—';
+const monthName = d => d.toLocaleDateString('es-ES',{month:'long',year:'numeric'});
+const escapeHTML = s => String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const defaultConfig = {cycleLength:28,periodLength:5,painTypes:['Cólico','Punzante','Presión','Ardor','Tirantez','Palpitante','Sordo','Eléctrico'],locations:['Pelvis','Abdomen','Lumbar','Cadera','Piernas','Recto','Zona urinaria','Otra'],symptoms:['Hinchazón','Fatiga','Náuseas','Dolor de cabeza','Sensibilidad mamaria','Cambios de ánimo','Molestias digestivas','Molestias urinarias','Dolor al defecar','Mareo']};
+let db = {days:{},config:{...defaultConfig}};
+let selectedDate=todayISO(), calendarDate=dateObj(todayISO()), activePainEdit=[];
+const load = () => {try{const raw=localStorage.getItem('ciclica-data-v1');if(raw){const parsed=JSON.parse(raw);db={days:parsed.days||{},config:{...defaultConfig,...parsed.config}}}}catch(e){console.warn(e)}};
+const persist = () => {try{localStorage.setItem('ciclica-data-v1',JSON.stringify(db));return true}catch(e){alert('No se pudieron guardar los datos. Comprueba el espacio disponible en el navegador.');return false}};
+const getDay = date => db.days[date] || {period:false,flow:'',bleedNotes:'',periodSymptoms:[],periodOther:'',pains:[],impact:'',notes:''};
+const getStarts = () => Object.keys(db.days).filter(d=>db.days[d].period).sort();
+const getCycles = () => {const starts=getStarts();return starts.map((start,i)=>({start,end: starts[i+1]||null,length: starts[i+1]?diffDays(start,starts[i+1]):null,idx:i}));};
+const activeCycle = date => {const starts=getStarts().filter(s=>s<=date);return starts.length?starts[starts.length-1]:null;};
+const painMax = day => (day?.pains||[]).reduce((m,p)=>Math.max(m,Number(p.intensity)||0),0);
+const hasPain = day => (day?.pains||[]).length>0;
+const unique = a => [...new Set(a)];
+function switchView(name){$$('.view').forEach(v=>v.classList.toggle('active',v.id==='view-'+name));$$('[data-view]').forEach(b=>b.classList.toggle('active',b.dataset.view===name));if(name==='calendar')renderCalendar();if(name==='stats')renderStats();if(name==='home')renderHome();if(name==='log')loadLog(selectedDate);window.scrollTo({top:0,behavior:'smooth'});}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-view],[data-goto]');if(!b)return;switchView(b.dataset.view||b.dataset.goto);});
+$('#quickAdd').onclick=()=>{selectedDate=todayISO();switchView('log')};
+$('#logDate').value=selectedDate;
+$('#logDate').addEventListener('change',()=>{selectedDate=$('#logDate').value||todayISO();loadLog(selectedDate)});
+$('#periodOn').addEventListener('change',()=>$('#periodFields').classList.toggle('hidden',!$('#periodOn').checked));
+function renderChecks(container, options, groupName, selected=[]){container.innerHTML='';options.forEach((value,i)=>{const label=document.createElement('label');label.className='chip';const input=document.createElement('input');input.type='checkbox';input.name=groupName;input.value=value;input.checked=selected.includes(value);label.append(input,document.createTextNode(value));container.append(label);});}
+function checked(container){return $$('input[type=checkbox]',).filter?[]:[]}
+function readChecks(container){return [...container.querySelectorAll('input:checked')].map(x=>x.value)}
+function renderPeriodSymptoms(selected=[]){renderChecks($('#periodSymptoms'),db.config.symptoms,'periodsym',selected)}
+function createPainEntry(data={}){const frag=$('#painTemplate').content.cloneNode(true);const card=frag.querySelector('.pain-entry');card.querySelector('.pain-start').value=data.start||'';card.querySelector('.pain-end').value=data.end||'';card.querySelector('.pain-intensity').value=data.intensity??5;card.querySelector('.pain-value').textContent=data.intensity??5;card.querySelector('.pain-notes').value=data.notes||'';renderChecks(card.querySelector('.pain-locations'),db.config.locations,'loc'+Math.random(),data.locations||[]);renderChecks(card.querySelector('.pain-types'),db.config.painTypes,'type'+Math.random(),data.types||[]);card.querySelector('.pain-intensity').addEventListener('input',e=>card.querySelector('.pain-value').textContent=e.target.value);card.querySelector('.remove-pain').onclick=()=>card.remove();$('#painEpisodes').append(card)}
+$('#addPain').onclick=()=>createPainEntry();
+function loadLog(date){selectedDate=date;$('#logDate').value=date;const d=getDay(date);$('#periodOn').checked=!!d.period;$('#periodFields').classList.toggle('hidden',!d.period);$('#flow').value=d.flow||'';$('#bleedNotes').value=d.bleedNotes||'';renderPeriodSymptoms(d.periodSymptoms||[]);$('#periodOther').value=d.periodOther||'';$('#impact').value=d.impact??'';$('#dayNotes').value=d.notes||'';$('#painEpisodes').innerHTML='';(d.pains||[]).forEach(createPainEntry);$('#saveMessage').textContent='';}
+$('#saveDay').onclick=()=>{const pains=$$('.pain-entry').map(c=>({start:c.querySelector('.pain-start').value,end:c.querySelector('.pain-end').value,locations:readChecks(c.querySelector('.pain-locations')),types:readChecks(c.querySelector('.pain-types')),intensity:Number(c.querySelector('.pain-intensity').value),notes:c.querySelector('.pain-notes').value.trim()}));const d={period:$('#periodOn').checked,flow:$('#flow').value,bleedNotes:$('#bleedNotes').value.trim(),periodSymptoms:readChecks($('#periodSymptoms')),periodOther:$('#periodOther').value.trim(),pains,impact:$('#impact').value,notes:$('#dayNotes').value.trim()};if(!d.period&&!d.flow&&!d.bleedNotes&&!d.periodSymptoms.length&&!d.periodOther&&!pains.length&&!d.impact&&!d.notes){delete db.days[selectedDate]}else{db.days[selectedDate]=d}persist();$('#saveMessage').textContent='Registro guardado en este dispositivo.';renderHome();renderCalendar();};
+$('#clearDay').onclick=()=>{if(confirm('¿Borrar todos los registros de '+pretty(selectedDate)+'?')){delete db.days[selectedDate];persist();loadLog(selectedDate);renderHome();renderCalendar();}};
+$('#prevMonth').onclick=()=>{calendarDate.setMonth(calendarDate.getMonth()-1);renderCalendar()};
+$('#nextMonth').onclick=()=>{calendarDate.setMonth(calendarDate.getMonth()+1);renderCalendar()};
+$('#editSelected').onclick=()=>switchView('log');
+function renderCalendar(){const grid=$('#calendarGrid');grid.innerHTML='';$('#monthTitle').textContent=monthName(calendarDate);['L','M','X','J','V','S','D'].forEach(x=>{const el=document.createElement('div');el.className='weekday';el.textContent=x;grid.append(el)});const year=calendarDate.getFullYear(),month=calendarDate.getMonth(),first=new Date(year,month,1,12),offset=(first.getDay()+6)%7,days=new Date(year,month+1,0).getDate();for(let i=0;i<offset;i++){const e=document.createElement('div');e.className='day empty';grid.append(e)}for(let n=1;n<=days;n++){const date=iso(new Date(year,month,n,12)),d=getDay(date),b=document.createElement('button');b.className='day';if(d.period)b.classList.add('period');if(hasPain(d))b.classList.add('pain');if(date===selectedDate)b.classList.add('selected');if(date===todayISO())b.classList.add('today');b.innerHTML=`<span>${n}</span><span class="dots">${d.period?'<i class="dot"></i>':''}${hasPain(d)?'<i class="dot pain"></i>':''}</span>`;b.onclick=()=>{selectedDate=date;renderCalendar();renderSelectedDay();};grid.append(b)}renderSelectedDay();}
+function renderSelectedDay(){const d=getDay(selectedDate);$('#selectedDateTitle').textContent=pretty(selectedDate);const bits=[];if(d.period)bits.push(`<span class="tag periodtag">Menstruación${d.flow?' · '+escapeHTML(d.flow.toLowerCase()):''}</span>`);if(d.pains.length)bits.push(`<span class="tag paintag">${d.pains.length} episodio(s) de dolor · máximo ${painMax(d)}/10</span>`);if(d.periodSymptoms.length)bits.push(`<p><b>Síntomas:</b> ${d.periodSymptoms.map(escapeHTML).join(', ')}</p>`);if(d.periodOther)bits.push(`<p>${escapeHTML(d.periodOther)}</p>`);d.pains.forEach((p,i)=>bits.push(`<div class="timelineitem"><div><b>${escapeHTML(p.types.join(', ')||'Dolor')}</b><div class="smalltext">${escapeHTML(p.locations.join(', ')||'Localización no indicada')}${p.start?' · '+escapeHTML(p.start):''}${p.end?'–'+escapeHTML(p.end):''}</div>${p.notes?'<p class="smalltext">'+escapeHTML(p.notes)+'</p>':''}</div><strong>${p.intensity}/10</strong></div>`));if(d.impact)bits.push(`<p><b>Impacto:</b> ${['','Ninguno','Leve','Moderado','Alto'][Number(d.impact)]||'Sin indicar'}</p>`);if(d.notes)bits.push(`<p>${escapeHTML(d.notes)}</p>`);$('#selectedSummary').innerHTML=bits.length?bits.join(''):'<div class="empty">No hay registros para este día.</div>';}
+function renderHome(){const today=todayISO(),d=getDay(today),start=activeCycle(today);$('#todayLabel').textContent=dateObj(today).toLocaleDateString('es-ES',{weekday:'long',day:'numeric',month:'long'}).toUpperCase();if(start){$('#heroTitle').textContent=`Día ${diffDays(start,today)+1} de tu ciclo`;$('#heroText').textContent=d.period?'Has registrado menstruación hoy.':`Última menstruación registrada: ${pretty(start)}.`;$('#cycleStat').textContent=diffDays(start,today)+1;$('#periodStat').textContent=pretty(start)}else{$('#heroTitle').textContent='Empieza por donde estés';$('#heroText').textContent='Registra tu menstruación y tus síntomas a tu ritmo.';$('#cycleStat').textContent='—';$('#periodStat').textContent='—'}const currentDays=Object.keys(db.days).filter(x=>start?x>=start&&x<=today:x<=today).map(x=>db.days[x]);const painDays=currentDays.filter(hasPain);$('#painDaysStat').textContent=painDays.length;const values=painDays.map(painMax);$('#avgPainStat').textContent=values.length?(values.reduce((a,b)=>a+b,0)/values.length).toFixed(1)+'/10':'—';const summary=[];if(d.period)summary.push(`<span class="tag periodtag">Menstruación${d.flow?' · '+escapeHTML(d.flow.toLowerCase()):''}</span>`);if(d.pains.length)summary.push(`<span class="tag paintag">${d.pains.length} episodio(s) · dolor máx. ${painMax(d)}/10</span>`);if(d.periodSymptoms.length)summary.push(`<p>${d.periodSymptoms.map(escapeHTML).join(' · ')}</p>`);if(d.notes)summary.push(`<p>${escapeHTML(d.notes)}</p>`);$('#todaySummary').innerHTML=summary.length?summary.join(''):'<div class="empty">Todavía no hay registros para hoy. Puedes registrar sangrado, dolor o síntomas.</div>';const recent=Object.keys(db.days).sort().reverse().filter(x=>{const z=getDay(x);return z.period||z.pains.length||z.periodSymptoms.length||z.notes||z.impact}).slice(0,4);$('#recentList').innerHTML=recent.length?recent.map(x=>{const z=getDay(x);return `<div class="timelineitem"><div><b>${pretty(x)}</b><div class="smalltext">${[z.period?'Menstruación':'',z.pains.length?`${z.pains.length} episodio(s) de dolor`:'',z.periodSymptoms.slice(0,2).join(', ')].filter(Boolean).join(' · ')}</div></div><button class="btn small" data-editdate="${x}">Ver</button></div>`}).join(''):'<div class="empty">Tus registros aparecerán aquí.</div>';$$('[data-editdate]').forEach(b=>b.onclick=()=>{selectedDate=b.dataset.editdate;switchView('log')});}
+function renderSettings(){const c=db.config;$('#cycleLength').value=c.cycleLength;$('#periodLength').value=c.periodLength;const settingChips=(id,arr,kind)=>{$(id).innerHTML=arr.map(x=>`<button class="chip" type="button" data-remove-kind="${kind}" data-value="${escapeHTML(x)}">${escapeHTML(x)} ×</button>`).join('')||'<span class="smalltext">No hay opciones.</span>'};settingChips('#painTypeSettings',c.painTypes,'painTypes');settingChips('#locationSettings',c.locations,'locations');settingChips('#symptomSettings',c.symptoms,'symptoms');}
+$('#saveSettings').onclick=()=>{db.config.cycleLength=Math.max(10,Math.min(90,Number($('#cycleLength').value)||28));db.config.periodLength=Math.max(1,Math.min(20,Number($('#periodLength').value)||5));persist();renderStats();$('#settingsMessage').textContent='Preferencias guardadas.'};
+function addConfigValue(input,key){const val=$(input).value.trim();if(val&&!db.config[key].includes(val)){db.config[key].push(val);persist();renderSettings();}$(input).value=''}
+$('#addPainType').onclick=()=>addConfigValue('#customPainType','painTypes');$('#addLocation').onclick=()=>addConfigValue('#customLocation','locations');$('#addSymptom').onclick=()=>addConfigValue('#customSymptom','symptoms');
+document.addEventListener('click',e=>{const b=e.target.closest('[data-remove-kind]');if(!b)return;const k=b.dataset.removeKind,v=b.dataset.value;if(confirm('¿Quitar la opción "'+v+'" de las opciones disponibles? Los registros ya guardados no se borrarán.')){db.config[k]=db.config[k].filter(x=>x!==v);persist();renderSettings();}});
+function renderStats(){const starts=getStarts(),cycles=getCycles(),range=$('#statsRange').value;let useCycles=cycles.filter(c=>c.length);if(range!=='all')useCycles=useCycles.slice(-Number(range));const dayCount=[],periodLens=[],maxes=[];useCycles.forEach(c=>{const end=c.end;const span=Object.keys(db.days).filter(d=>d>=c.start&&d<end);const pDays=span.filter(d=>hasPain(getDay(d)));dayCount.push(pDays.length);maxes.push(...pDays.map(d=>painMax(getDay(d))));let n=0;for(let i=0;i<40;i++){const dt=addDays(c.start,i);if(getDay(dt).period)n++;else if(i>0)break;}if(n)periodLens.push(n)});const mean=a=>a.length?(a.reduce((x,y)=>x+y,0)/a.length).toFixed(1):'—';$('#avgCycleLength').textContent=useCycles.length?mean(useCycles.map(c=>c.length))+' d':'—';$('#avgPeriodLength').textContent=mean(periodLens)==='—'?'—':mean(periodLens)+' d';$('#painDayAverage').textContent=mean(dayCount)==='—'?'—':mean(dayCount);$('#maxPainAverage').textContent=mean(maxes)==='—'?'—':mean(maxes)+'/10';
+const bins=[{name:'Antes del periodo',min:-7,max:0},{name:'Días 1–2',min:1,max:2},{name:'Días 3–5',min:3,max:5},{name:'Días 6–10',min:6,max:10},{name:'Días 11–17',min:11,max:17},{name:'Día 18 en adelante',min:18,max:100}];const accum=bins.map(()=>[]);const allStarts=starts;Object.keys(db.days).forEach(date=>{if(!hasPain(getDay(date)))return;const nextStart=allStarts.find(s=>s>date);const prevStart=activeCycle(date);let b;if(nextStart&&diffDays(date,nextStart)>=1&&diffDays(date,nextStart)<=7){b=0}else{if(!prevStart)return;const cycleIdx=allStarts.indexOf(prevStart);if(range!=='all'&&cycleIdx<Math.max(0,allStarts.length-Number(range)))return;const dayNum=diffDays(prevStart,date)+1;b=dayNum<=2?1:dayNum<=5?2:dayNum<=10?3:dayNum<=17?4:5;}accum[b].push(painMax(getDay(date)))});const avgs=accum.map(a=>a.length?a.reduce((x,y)=>x+y,0)/a.length:0),max=Math.max(10,...avgs);$('#phaseChart').innerHTML=bins.map((b,i)=>`<div class="barrow"><span>${b.name}</span><div class="track"><div class="bar" style="width:${avgs[i]/max*100}%"></div></div><b>${accum[i].length?avgs[i].toFixed(1):'—'}</b></div>`).join('')+'<p class="smalltext">Solo se incluyen días con dolor registrado. El tramo previo al periodo usa los 7 días anteriores al siguiente inicio de menstruación registrado.</p>';
+const shown=useCycles.slice().reverse();$('#cycleCompare').innerHTML=shown.length?shown.map((c,i)=>{const end=c.end;const ds=Object.keys(db.days).filter(d=>d>=c.start&&d<end);const pd=ds.filter(d=>hasPain(getDay(d)));const mx=pd.length?Math.max(...pd.map(d=>painMax(getDay(d)))):'—';return `<div class="timelineitem"><div><b>Ciclo iniciado ${pretty(c.start)}</b><div class="smalltext">${c.length} días · ${pd.length} días con dolor</div></div><div style="text-align:right"><b>${mx}${mx!=='—'?'/10':''}</b><div class="smalltext">máximo</div></div></div>`}).join(''):'<div class="empty">Registra al menos dos inicios de menstruación para comparar ciclos completos.</div>';
+const counts={};Object.values(db.days).forEach(d=>[...(d.periodSymptoms||[]),...(d.pains||[]).flatMap(p=>p.types||[]),...(d.pains||[]).flatMap(p=>p.locations||[])].forEach(s=>counts[s]=(counts[s]||0)+1));const top=Object.entries(counts).sort((a,b)=>b[1]-a[1]).slice(0,8);$('#symptomStats').innerHTML=top.length?top.map(([s,n])=>`<div class="row between" style="padding:7px 0"><span>${escapeHTML(s)}</span><b>${n}</b></div>`).join(''):'<div class="empty">Cuando registres síntomas, aparecerán aquí.</div>';}
+$('#statsRange').onchange=renderStats;
+$('#exportData').onclick=()=>{const blob=new Blob([JSON.stringify({format:'ciclica-backup-v1',exportedAt:new Date().toISOString(),...db},null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='ciclica-copia-'+todayISO()+'.json';a.click();URL.revokeObjectURL(a.href);$('#settingsMessage').textContent='Copia exportada.'};
+$('#importFile').onchange=async e=>{const f=e.target.files[0];if(!f)return;try{const data=JSON.parse(await f.text());if(!data.days||!data.config)throw Error('Formato no válido');if(confirm('Importar sustituirá los datos actuales. ¿Continuar?')){db={days:data.days,config:{...defaultConfig,...data.config}};persist();renderSettings();renderHome();renderCalendar();loadLog(selectedDate);$('#settingsMessage').textContent='Copia importada.'}}catch(err){alert('No se pudo importar el archivo. Comprueba que sea una copia de Cíclica.')}e.target.value=''};
+$('#wipeData').onclick=()=>{if(confirm('¿Borrar permanentemente todos los registros y preferencias guardados en este navegador? Exporta una copia antes si quieres conservarlos.')){localStorage.removeItem('ciclica-data-v1');db={days:{},config:{...defaultConfig}};persist();renderSettings();renderHome();renderCalendar();loadLog(todayISO());$('#settingsMessage').textContent='Datos borrados.'}};
+if('serviceWorker' in navigator && location.protocol.startsWith('http'))window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+load();renderSettings();loadLog(selectedDate);renderHome();renderCalendar();renderStats();
+})();
+</script>
+</body></html>

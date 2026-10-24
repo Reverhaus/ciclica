@@ -1,0 +1,19 @@
+{
+  "name": "Cíclica — seguimiento menstrual",
+  "short_name": "Cíclica",
+  "description": "Seguimiento menstrual y registro personal de dolor.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f7f4f8",
+  "theme_color": "#352a45",
+  "lang": "es",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
